@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sean Schriefer - Analytics Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: #f8fafc;
+            overflow-x: hidden;
+        }
+
+        /* Data Grid Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation Bar */
+        .nav-bar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid #e2e8f0;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1e40af;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #64748b;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #1e40af;
+        }
+
+        /* Hero Section - Dashboard Style */
+        .hero {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #60a5fa 100%);
+            color: white;
+            padding: 80px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+        }
+
+        .hero-content {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero-text .subtitle {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            opacity: 0.9;
+            font-weight: 500;
+        }
+
+        .hero-text .description {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .cta-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Dashboard Widget in Hero */
+        .hero-widget {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border-radius: 12px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .widget-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .widget-title {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .widget-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .widget-change {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .mini-chart {
+            height: 60px;
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            border-radius: 6px;
+            margin-top: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mini-chart::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 30px;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            clip-path: polygon(0% 100%, 20% 60%, 40% 80%, 60% 40%, 80% 70%, 100% 20%, 100% 100%);
+        }
+
+        /* Section Styling */
+        .section {
+            background: white;
+            margin: 40px 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+        }
+
+        .section-header {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            padding: 30px 40px 20px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .section-header h2 {
+            font-size: 2.2rem;
+            color: #1e40af;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .section-subtitle {
+            color: #64748b;
+            font-size: 1.1rem;
+        }
+
+        .section-content {
+            padding: 40px;
+        }
+
+        /* Metrics Dashboard Style */
+        .metrics-dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .metric-card {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            position: relative;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .metric-card:hover {
+            border-color: #3b82f6;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 16px rgba(59, 130, 246, 0.15);
+        }
+
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #1e40af, #3b82f6, #60a5fa);
+            border-radius: 12px 12px 0 0;
+        }
+
+        .metric-number {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: #1e40af;
+            display: block;
+            margin-bottom: 8px;
+            line-height: 1;
+        }
+
+        .metric-label {
+            color: #64748b;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        /* Skills Grid - Chart Style */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .skill-card {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-card:hover {
+            border-color: #3b82f6;
+            box-shadow: 0 8px 16px rgba(59, 130, 246, 0.15);
+        }
+
+        .skill-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(90deg, #1e40af, #3b82f6, #60a5fa, #93c5fd);
+        }
+
+        .skill-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .skill-icon {
+            font-size: 1.8rem;
+            margin-right: 12px;
+        }
+
+        .skill-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #1e40af;
+        }
+
+        .skill-list {
+            list-style: none;
+        }
+
+        .skill-list li {
+            padding: 8px 0;
+            color: #4b5563;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .skill-list li::before {
+            content: '▶';
+            position: absolute;
+            left: 0;
+            color: #3b82f6;
+            font-size: 0.7rem;
+        }
+
+        /* Projects Grid - Data Cards */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .project-card {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .project-card:hover {
+            border-color: #3b82f6;
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(59, 130, 246, 0.15);
+        }
+
+        .project-header {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            color: white;
+            padding: 25px 25px 20px;
+            position: relative;
+        }
+
+        .project-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 20px;
+            background: repeating-linear-gradient(
+                45deg,
+                rgba(255, 255, 255, 0.1),
+                rgba(255, 255, 255, 0.1) 2px,
+                transparent 2px,
+                transparent 12px
+            );
+        }
+
+        .project-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .project-type {
+            opacity: 0.9;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .project-content {
+            padding: 25px;
+        }
+
+        .project-description {
+            color: #4b5563;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag {
+            background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+            color: #1e40af;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: 1px solid #cbd5e1;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            color: white;
+            text-align: center;
+            margin: 40px 0 0;
+        }
+
+        .contact-content {
+            padding: 60px 40px;
+        }
+
+        .contact-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .contact-description {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .contact-link {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-decoration: none;
+            padding: 15px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .contact-link:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-content {
+                text-align: center;
+            }
+            
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .section-content {
+                padding: 30px 20px;
+            }
+            
+            .section-header {
+                padding: 25px 20px 15px;
+            }
+            
+            .contact-links {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        /* Chart Elements */
+        .chart-decoration {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            opacity: 0.1;
+            background: linear-gradient(45deg, #3b82f6, #60a5fa);
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav-bar">
+        <div class="nav-content">
+            <div class="logo">Sean Schriefer</div>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Achievements</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Sean Schriefer</h1>
+                    <div class="subtitle">Enterprise Solutions & Technology Leader</div>
+                    <div class="description">
+                        Delivering impactful BI solutions that enhance efficiency, user experience, & organizational performance
+                    </div>
+                    <a href="#projects" class="cta-button">
+                        📊 View Analytics Portfolio
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="section" id="about">
+            <div class="section-header">
+                <h2>Executive Summary</h2>
+                <div class="section-subtitle">Aligning business strategy with technical execution</div>
+            </div>
+            <div class="section-content">
+                <p style="font-size: 1.1rem; color: #4b5563; max-width: 900px; margin: 0 auto 30px; text-align: center; line-height: 1.8;">
+                    Strategic business leader with global operations expertise and proven track record of aligning business strategy 
+                    with technical execution. I specialize in partnering with cross-functional teams to embed automation into strategic 
+                    goals and translate complex data into actionable insights. Expert in modernizing reporting into business-critical 
+                    KPIs through advanced analytics and BI tools, with a focus on driving data-driven decision-making across enterprise organizations.
+                </p>
+                
+                <div class="metrics-dashboard">
+                    <div class="metric-card">
+                        <span class="metric-number">15+</span>
+                        <div class="metric-label">Years Experience</div>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-number">30+</span>
+                        <div class="metric-label">Enterprise Dashboards</div>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-number">$600M</span>
+                        <div class="metric-label">Revenue Managed</div>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-number">450</span>
+                        <div class="metric-label">Users Supported</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section class="section" id="skills">
+            <div class="section-header">
+                <h2>Technical Capabilities</h2>
+                <div class="section-subtitle">Enterprise-grade tools and methodologies</div>
+            </div>
+            <div class="section-content">
+                <div class="skills-grid">
+                    <div class="skill-card">
+                        <div class="skill-header">
+                            <div class="skill-icon">📊</div>
+                            <div class="skill-title">Business Intelligence</div>
+                        </div>
+                        <ul class="skill-list">
+                            <li>Power BI (DAX/M)</li>
+                            <li>Enterprise Dashboard Development</li>
+                            <li>Star/Snowflake Schema Design</li>
+                            <li>KPI Strategy & Performance Tracking</li>
+                            <li>Row-Level Security (RLS)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="skill-card">
+                        <div class="skill-header">
+                            <div class="skill-icon">🔧</div>
+                            <div class="skill-title">Data & Analytics</div>
+                        </div>
+                        <ul class="skill-list">
+                            <li>Snowflake Data Warehousing</li>
+                            <li>SQL Query Optimization</li>
+                            <li>Alteryx Process Automation</li>
+                            <li>Data Migration & ETL</li>
+                            <li>Advanced Excel (Power Query/VBA)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="skill-card">
+                        <div class="skill-header">
+                            <div class="skill-icon">🏢</div>
+                            <div class="skill-title">Enterprise Systems</div>
+                        </div>
+                        <ul class="skill-list">
+                            <li>Salesforce CRM</li>
+                            <li>Oracle EBS</li>
+                            <li>JIRA & Confluence</li>
+                            <li>Anaplan Planning Platform</li>
+                            <li>SharePoint & Access</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="skill-card">
+                        <div class="skill-header">
+                            <div class="skill-icon">📈</div>
+                            <div class="skill-title">Supply Chain & Operations</div>
+                        </div>
+                        <ul class="skill-list">
+                            <li>Global Supply Chain Management</li>
+                            <li>Demand Planning & Forecasting</li>
+                            <li>Inventory Optimization</li>
+                            <li>CPFR Strategy Implementation</li>
+                            <li>Revenue Assurance Processes</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="skill-card">
+                        <div class="skill-header">
+                            <div class="skill-icon">👥</div>
+                            <div class="skill-title">Leadership & Strategy</div>
+                        </div>
+                        <ul class="skill-list">
+                            <li>Cross-Functional Team Management</li>
+                            <li>Strategic Business Planning</li>
+                            <li>Process Improvement & KPIs</li>
+                            <li>Six Sigma Black Belt</li>
+                            <li>Executive Stakeholder Management</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="skill-card">
+                        <div class="skill-header">
+                            <div class="skill-icon">🎯</div>
+                            <div class="skill-title">Business Domains</div>
+                        </div>
+                        <ul class="skill-list">
+                            <li>Sales Operations & Analytics</li>
+                            <li>Finance & Revenue Management</li>
+                            <li>Quality Management & Compliance</li>
+                            <li>Vendor & Partner Management</li>
+                            <li>Risk Management & Mitigation</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section class="section" id="projects">
+            <div class="section-header">
+                <h2>Key Achievements</h2>
+                <div class="section-subtitle">Quantifiable business impact through data-driven solutions</div>
+            </div>
+            <div class="section-content">
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <div class="project-header">
+                            <div class="project-title">Enterprise BI Platform Transformation</div>
+                            <div class="project-type">Power BI • Snowflake • Data Migration</div>
+                        </div>
+                        <div class="project-content">
+                            <div class="project-description">
+                                Led end-to-end development of 30+ enterprise dashboards and architected Snowflake data migration for 1M+ records with zero data loss. Delivered 25% improvement in cross-functional decision making and 30% increase in delivery efficiency through enhanced stakeholder visibility.
+                            </div>
+                            <div class="project-tags">
+                                <span class="tag">Power BI</span>
+                                <span class="tag">Snowflake</span>
+                                <span class="tag">Data Migration</span>
+                                <span class="tag">Enterprise Architecture</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="project-card">
+                        <div class="project-header">
+                            <div class="project-title">Sales Operations Analytics</div>
+                            <div class="project-type">KPI Strategy • Performance Optimization</div>
+                        </div>
+                        <div class="project-content">
+                            <div class="project-description">
+                                Directed KPI strategy for $600M+ Americas sales pipeline, serving 450+ sales staff. Consolidated 50+ Salesforce dashboards into single scalable Power BI model with RLS, reducing maintenance by 60% while improving accessibility for executive leadership.
+                            </div>
+                            <div class="project-tags">
+                                <span class="tag">Salesforce</span>
+                                <span class="tag">Power BI</span>
+                                <span class="tag">KPI Strategy</span>
+                                <span class="tag">Sales Analytics</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="project-card">
+                        <div class="project-header">
+                            <div class="project-title">Process Automation & Optimization</div>
+                            <div class="project-type">Alteryx • SQL Optimization</div>
+                        </div>
+                        <div class="project-content">
+                            <div class="project-description">
+                                Automated reporting processes using Alteryx, eliminating 15+ hours of manual work weekly. Optimized Snowflake SQL views and data models, achieving 40-50% reduction in query times and improving report performance across the enterprise.
+                            </div>
+                            <div class="project-tags">
+                                <span class="tag">Alteryx</span>
+                                <span class="tag">SQL Optimization</span>
+                                <span class="tag">Process Automation</span>
+                                <span class="tag">Performance Tuning</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="project-card">
+                        <div class="project-header">
+                            <div class="project-title">Global Supply Chain Management</div>
+                            <div class="project-type">Revenue Assurance • Strategic Planning</div>
+                        </div>
+                        <div class="project-content">
+                            <div class="project-description">
+                                Spearheaded end-to-end order management for $600M annual revenue across NA strategic accounts. Implemented CPFR strategies achieving 100% material availability and designed inventory models optimizing global distribution efficiency.
+                            </div>
+                            <div class="project-tags">
+                                <span class="tag">Supply Chain</span>
+                                <span class="tag">Revenue Management</span>
+                                <span class="tag">Demand Planning</span>
+                                <span class="tag">Inventory Optimization</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="project-card">
+                        <div class="project-header">
+                            <div class="project-title">Customer Success & Operations</div>
+                            <div class="project-type">Quality Management • Team Leadership</div>
+                        </div>
+                        <div class="project-content">
+                            <div class="project-description">
+                                Managed high-performing teams achieving 98% SLA compliance and 35% reduction in customer escalations. Maintained 100% ISO9001/TL9000 compliance while overseeing global lab operations and driving 20% improvement in first-touch resolution rates.
+                            </div>
+                            <div class="project-tags">
+                                <span class="tag">Team Leadership</span>
+                                <span class="tag">Quality Management</span>
+                                <span class="tag">Customer Success</span>
+                                <span class="tag">Operations Excellence</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="project-card">
+                        <div class="project-header">
+                            <div class="project-title">Data-Driven Decision Making</div>
+                            <div class="project-type">Executive Reporting • Strategic Insights</div>
+                        </div>
+                        <div class="project-content">
+                            <div class="project-description">
+                                Delivered executive-level dashboards and QBRs translating complex technical data into strategic business insights. Enhanced end-user satisfaction by 30% through user feedback integration and accelerated platform adoption across global teams.
+                            </div>
+                            <div class="project-tags">
+                                <span class="tag">Executive Reporting</span>
+                                <span class="tag">Business Intelligence</span>
+                                <span class="tag">Strategic Planning</span>
+                                <span class="tag">Stakeholder Management</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Contact Section -->
+    <section class="contact-section" id="contact">
+        <div class="contact-content">
+            <h2 class="contact-title">Let's Connect</h2>
+            <p class="contact-description">
+                Ready to discuss how data analytics can drive your business forward?
+            </p>
+            <div class="contact-links">
+                <a href="mailto:seandschriefer@gmail.com" class="contact-link">
+                    📧 Email
+                </a>
+                <a href="https://www.linkedin.com/in/sean-schriefer" class="contact-link">
+                    💼 LinkedIn
+                </a>
+                <a href="https://github.com/sschrief" class="contact-link">
+                    🐙 GitHub
+                </a>
+                <a href="sean-schriefer-resume.pdf" class="contact-link">
+                    📄 Resume
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Animate metrics on scroll
+        const observerOptions = {
+            threshold: 0.5,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const metrics = entry.target.querySelectorAll('.metric-number');
+                    metrics.forEach(metric => {
+                        const finalValue = metric.textContent;
+                        const numericValue = parseInt(finalValue.replace(/[^0-9]/g, ''));
+                        if (!isNaN(numericValue)) {
+                            animateCounter(metric, 0, numericValue, finalValue);
+                        }
+                    });
+                }
+            });
+        }, observerOptions);
+
+        const metricsSection = document.querySelector('.metrics-dashboard');
+        if (metricsSection) {
+            observer.observe(metricsSection);
+        }
+
+        function animateCounter(element, start, end, finalText) {
+            const duration = 2000;
+            const startTime = performance.now();
+            
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const current = Math.floor(start + (end - start) * progress);
+                
+                element.textContent = finalText.replace(/[0-9]+/, current);
+                
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                }
+            }
+            
+            requestAnimationFrame(update);
+        }
+
+        // Add subtle hover animations to cards
+        document.querySelectorAll('.project-card, .skill-card, .metric-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>
+

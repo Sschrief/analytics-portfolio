@@ -4,6 +4,8 @@
 ## 🎯 Overview
 This repository showcases advanced analytics capabilities through real-world business intelligence projects. Demonstrating enterprise-level data modeling, Power BI development, and executive communication skills.
 
+**🌐 Live Portfolio:** [View Portfolio Website](https://sschrief.github.io/analytics-portfolio/)
+
 ## 📊 Featured Projects
 
 ### ⭐ **Star Schema Executive Dashboard**
@@ -18,12 +20,7 @@ This repository showcases advanced analytics capabilities through real-world bus
 - Year-over-year growth tracking and seasonal analysis
 - Professional dashboard design with interactive drill-through
 
-📁 **Files:** [Data Files](./data/) | [Live Generator](https://sschrief.github.io/analytics-portfolio/generators/star-schema-generator.html)
-
-## 🚀 Portfolio Website
-Professional analytics portfolio showcasing technical capabilities and business impact.
-
-**Live Site:** [View Portfolio](https://sschrief.github.io/analytics-portfolio/portfolio-site/)
+📁 **Files:** [Data Files](./data/) | [Live Generator](https://sschrief.github.io/analytics-portfolio/generators/star-schema-generator.html) | [Power BI Documentation](./power-bi/)
 
 ## 🛠️ Technical Stack
 - **Business Intelligence:** Power BI, DAX, Star Schema Design
