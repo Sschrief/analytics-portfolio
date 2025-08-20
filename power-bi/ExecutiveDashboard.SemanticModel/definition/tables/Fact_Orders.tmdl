@@ -1,0 +1,135 @@
+table Fact_Orders
+	lineageTag: b4ab5a41-cd79-48b5-8362-67526fa78dbb
+
+	column OrderID
+		dataType: string
+		lineageTag: af950355-8fad-4b52-bab5-6fc900c671aa
+		summarizeBy: none
+		sourceColumn: OrderID
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrderDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 05251687-e740-46ae-aaee-b4b07f9bbf14
+		summarizeBy: none
+		sourceColumn: OrderDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column CustomerID
+		dataType: string
+		lineageTag: bb8dd502-4946-452e-9f6f-999f6b3479af
+		summarizeBy: none
+		sourceColumn: CustomerID
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductID
+		dataType: string
+		lineageTag: a052aaa7-4368-4dd0-894d-98785a35535a
+		summarizeBy: none
+		sourceColumn: ProductID
+
+		annotation SummarizationSetBy = Automatic
+
+	column GeographyID
+		dataType: string
+		lineageTag: 3cdb4b6e-ff33-45c7-b68e-0bdc5e364706
+		summarizeBy: none
+		sourceColumn: GeographyID
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesRepID
+		dataType: string
+		lineageTag: 86464b09-ff8a-4bea-bcb1-4e42a43e1bff
+		summarizeBy: none
+		sourceColumn: SalesRepID
+
+		annotation SummarizationSetBy = Automatic
+
+	column ChannelID
+		dataType: string
+		lineageTag: 79a9d089-29d8-4d39-ae0c-c4eb045dc5b5
+		summarizeBy: none
+		sourceColumn: ChannelID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quantity
+		dataType: int64
+		formatString: 0
+		lineageTag: f32f9067-b4c1-4f7c-83d2-6eb259223d26
+		summarizeBy: sum
+		sourceColumn: Quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column UnitPrice
+		dataType: double
+		lineageTag: ca6927b5-3a47-40ce-86e1-efbc001a240a
+		summarizeBy: sum
+		sourceColumn: UnitPrice
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Revenue
+		dataType: double
+		lineageTag: 6b0dd1aa-a57a-4f27-b779-20ed0e59f8f0
+		summarizeBy: sum
+		sourceColumn: Revenue
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Cost
+		dataType: double
+		lineageTag: 7fd36b40-f22c-4f0b-ae72-d574c9541941
+		summarizeBy: sum
+		sourceColumn: Cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column GrossProfit
+		dataType: double
+		lineageTag: 1cfdb1fc-25a6-4c1c-a56f-6237ad68d160
+		summarizeBy: sum
+		sourceColumn: GrossProfit
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column GrossMarginPercent
+		dataType: double
+		lineageTag: 058f4e13-176e-42cd-ab1d-92f7f1fd1c61
+		summarizeBy: sum
+		sourceColumn: GrossMarginPercent
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition Fact_Orders = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\sschr\OneDrive\Documents\GitHub\analytics-portfolio\data\Fact_Orders.csv"),[Delimiter=",", Columns=13, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"OrderID", type text}, {"OrderDate", type date}, {"CustomerID", type text}, {"ProductID", type text}, {"GeographyID", type text}, {"SalesRepID", type text}, {"ChannelID", type text}, {"Quantity", Int64.Type}, {"UnitPrice", type number}, {"Revenue", type number}, {"Cost", type number}, {"GrossProfit", type number}, {"GrossMarginPercent", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

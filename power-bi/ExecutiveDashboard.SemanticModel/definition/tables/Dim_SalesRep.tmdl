@@ -1,0 +1,71 @@
+table Dim_SalesRep
+	lineageTag: 77255b92-43d8-4ebd-902f-112a5cf4e465
+
+	column SalesRepID
+		dataType: string
+		lineageTag: afe6c52e-ebbc-453a-9fc1-a219b7479b3d
+		summarizeBy: none
+		sourceColumn: SalesRepID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Rep First Name'
+		dataType: string
+		lineageTag: b33d8d73-8a3b-4907-9d3b-7ddb59e1f3ae
+		summarizeBy: none
+		sourceColumn: Rep First Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Rep Last Name'
+		dataType: string
+		lineageTag: 3d920b6a-e7b7-4498-a8b0-2c737d62c5f3
+		summarizeBy: none
+		sourceColumn: Rep Last Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column RepTeam
+		dataType: string
+		lineageTag: 8d60b295-42a0-4298-b217-658a74ee5b6f
+		summarizeBy: none
+		sourceColumn: RepTeam
+
+		annotation SummarizationSetBy = Automatic
+
+	column RepRegion
+		dataType: string
+		lineageTag: 18f0b386-a6bc-4968-850c-b8cc190171f8
+		summarizeBy: none
+		sourceColumn: RepRegion
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Rep Full Name'
+		dataType: string
+		lineageTag: c253927b-5be5-4146-b623-81c67617667c
+		summarizeBy: none
+		sourceColumn: Rep Full Name
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dim_SalesRep = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\sschr\OneDrive\Documents\GitHub\analytics-portfolio\data\Dim_SalesRep.csv"),[Delimiter=",", Columns=4, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}, {"Column2", type text}, {"Column3", type text}, {"Column4", type text}}),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Changed Type", [PromoteAllScalars=true]),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Promoted Headers",{{"SalesRepID", type text}, {"RepName", type text}, {"RepTeam", type text}, {"RepRegion", type text}}),
+				    #"Split Column by Delimiter" = Table.SplitColumn(#"Changed Type1", "RepName", Splitter.SplitTextByDelimiter(" ", QuoteStyle.Csv), {"RepName.1", "RepName.2", "RepName.3"}),
+				    #"Changed Type2" = Table.TransformColumnTypes(#"Split Column by Delimiter",{{"RepName.1", type text}, {"RepName.2", type text}, {"RepName.3", Int64.Type}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type2",{"RepName.3"}),
+				    #"Inserted Merged Column" = Table.AddColumn(#"Removed Columns", "Rep Full Name", each Text.Combine({[RepName.1], " ", [RepName.2], " "}), type text),
+				    #"Renamed Columns" = Table.RenameColumns(#"Inserted Merged Column",{{"RepName.1", "Rep First Name"}, {"RepName.2", "Rep Last Name"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

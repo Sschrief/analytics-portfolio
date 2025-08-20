@@ -1,0 +1,58 @@
+table Dim_Product
+	lineageTag: c48235f8-203e-4e09-b2ad-f2b16f705e02
+
+	column ProductID
+		dataType: string
+		lineageTag: a2184d9a-f63a-45ce-8550-138eaaefec6d
+		summarizeBy: none
+		sourceColumn: ProductID
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductName
+		dataType: string
+		lineageTag: 75ca84f3-a21f-433c-856e-46d1b79d6134
+		summarizeBy: none
+		sourceColumn: ProductName
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductLine
+		dataType: string
+		lineageTag: 6055b597-1e13-4581-9ad3-3ed37031116c
+		summarizeBy: none
+		sourceColumn: ProductLine
+
+		annotation SummarizationSetBy = Automatic
+
+	column Category
+		dataType: string
+		lineageTag: 4a02118e-0ef9-4f31-ab63-f9e30b6ccc06
+		summarizeBy: none
+		sourceColumn: Category
+
+		annotation SummarizationSetBy = Automatic
+
+	column BasePrice
+		dataType: int64
+		formatString: 0
+		lineageTag: 6ecd6e79-775d-476b-9c9b-68494e27298d
+		summarizeBy: none
+		sourceColumn: BasePrice
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dim_Product = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\sschr\OneDrive\Documents\GitHub\analytics-portfolio\data\Dim_Product.csv"),[Delimiter=",", Columns=5, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"ProductID", type text}, {"ProductName", type text}, {"ProductLine", type text}, {"Category", type text}, {"BasePrice", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,58 @@
+table Dim_Customer
+	lineageTag: 2f417a99-d2ef-4104-9b47-6c766d3cdec2
+
+	column CustomerID
+		dataType: string
+		lineageTag: 2409f582-1607-4187-8dd8-0e158068b92b
+		summarizeBy: none
+		sourceColumn: CustomerID
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustomerName
+		dataType: string
+		lineageTag: 9c31734f-b313-44d8-805f-2aa471545215
+		summarizeBy: none
+		sourceColumn: CustomerName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Industry
+		dataType: string
+		lineageTag: ccb2d7d9-b737-49d5-bc87-020235302908
+		summarizeBy: none
+		sourceColumn: Industry
+
+		annotation SummarizationSetBy = Automatic
+
+	column CompanySize
+		dataType: string
+		lineageTag: ea7cd790-9036-4253-a7d9-72d054a3497f
+		summarizeBy: none
+		sourceColumn: CompanySize
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustomerTier
+		dataType: string
+		lineageTag: cff6ae88-e8bf-4dfa-9660-0119314e4045
+		summarizeBy: none
+		sourceColumn: CustomerTier
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dim_Customer = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\sschr\OneDrive\Documents\GitHub\analytics-portfolio\data\Dim_Customer.csv"),[Delimiter=",", Columns=5, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}, {"Column2", type text}, {"Column3", type text}, {"Column4", type text}, {"Column5", type text}}),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Changed Type", [PromoteAllScalars=true]),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Promoted Headers",{{"CustomerID", type text}, {"CustomerName", type text}, {"Industry", type text}, {"CompanySize", type text}, {"CustomerTier", type text}})
+				in
+				    #"Changed Type1"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

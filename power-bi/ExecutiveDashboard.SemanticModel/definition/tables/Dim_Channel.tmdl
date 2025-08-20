@@ -1,0 +1,51 @@
+table Dim_Channel
+	lineageTag: b9013fab-1ac7-4242-ba09-aee848f48c58
+
+	column ChannelID
+		dataType: string
+		lineageTag: 09d3ca72-5858-40d1-bf3d-71aa5f3d135b
+		summarizeBy: none
+		sourceColumn: ChannelID
+
+		annotation SummarizationSetBy = Automatic
+
+	column ChannelName
+		dataType: string
+		lineageTag: 6d8b0733-076e-44eb-bda2-b034757b253b
+		summarizeBy: none
+		sourceColumn: ChannelName
+
+		annotation SummarizationSetBy = Automatic
+
+	column ChannelType
+		dataType: string
+		lineageTag: 59ea8efd-2896-46ac-b071-3e2624e79e90
+		summarizeBy: none
+		sourceColumn: ChannelType
+
+		annotation SummarizationSetBy = Automatic
+
+	column CostPercent
+		dataType: double
+		lineageTag: 38696caf-e7ae-4b74-ba51-6e780f01ed7b
+		summarizeBy: none
+		sourceColumn: CostPercent
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition Dim_Channel = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\sschr\OneDrive\Documents\GitHub\analytics-portfolio\data\Dim_Channel.csv"),[Delimiter=",", Columns=4, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"ChannelID", type text}, {"ChannelName", type text}, {"ChannelType", type text}, {"CostPercent", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

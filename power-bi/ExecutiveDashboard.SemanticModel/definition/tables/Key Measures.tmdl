@@ -1,0 +1,120 @@
+table 'Key Measures'
+	lineageTag: 9d6c79a1-ac66-427c-8e0a-a0d9eaa67e1d
+
+	measure 'Total Revenue' = SUM(Fact_Orders[Revenue])
+		displayFolder: Revenue
+		lineageTag: 4df3cfd6-d845-4d71-8a9d-f3effdc48582
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Revenue PY' = CALCULATE([Total Revenue], SAMEPERIODLASTYEAR(Dim_Date[Date]))
+		displayFolder: Revenue
+		lineageTag: bec851ef-3411-4477-a94a-286ca6b7a451
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Revenue YoY Growth' =
+			
+			VAR CurrentRevenue = [Total Revenue]
+			VAR PreviousRevenue = [Revenue PY]
+			RETURN
+			    IF(
+			        ISBLANK(PreviousRevenue) || PreviousRevenue = 0,
+			        BLANK(),
+			        DIVIDE(CurrentRevenue - PreviousRevenue, PreviousRevenue, 0)
+			    )
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Revenue
+		lineageTag: feb6672a-8171-4251-94ae-5d2bdd383d6f
+
+	measure 'Revenue YoY Growth $' = [Total Revenue] - [Revenue PY]
+		displayFolder: Revenue
+		lineageTag: 3825c793-626e-4ddf-80e5-a5c1f253270f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Revenue YTD' = TOTALYTD([Total Revenue], Dim_Date[Date])
+		displayFolder: Revenue
+		lineageTag: abebf5af-8994-4aa5-b017-a00c01a2f776
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Total Cost' = SUM(Fact_Orders[Cost])
+		displayFolder: Cost & Margin
+		lineageTag: 74b4c0b1-0cd1-4dfd-89e3-e769c97788c2
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Total Gross Profit' = SUM(Fact_Orders[GrossProfit])
+		displayFolder: Cost & Margin
+		lineageTag: 3e9e43eb-51cd-45c1-870a-ec8af95d543d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Gross Margin %' = DIVIDE([Total Gross Profit], [Total Revenue], 0)
+		displayFolder: Cost & Margin
+		lineageTag: ed4fc8a2-d2e3-45e8-82d9-75dc5ca84dff
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Total Orders' = COUNT(Fact_Orders[OrderID])
+		formatString: 0
+		displayFolder: Orders
+		lineageTag: fafcaffd-f8cb-47f4-b85d-4a24c1021a53
+
+	measure 'Orders PY' = CALCULATE([Total Orders], SAMEPERIODLASTYEAR(Dim_Date[Date]))
+		formatString: 0
+		displayFolder: Orders
+		lineageTag: 8d89b8b8-77dd-4925-aa8b-c06436713954
+
+	measure 'Average Order Value' = DIVIDE([Total Revenue], [Total Orders], 0)
+		displayFolder: Orders
+		lineageTag: 60be9d19-9379-44b7-b6cb-94db7cda3266
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Current YoY Growth' =
+			
+			CALCULATE(
+			    [Revenue YoY Growth],
+			    LASTDATE(ALLSELECTED(Dim_Date[Date]))
+			)
+		lineageTag: 68bac8bb-592b-40b3-921e-02a328e1de46
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Latest YoY Growth' = ```
+			
+			VAR MaxYear = MAX(Dim_Date[Year])
+			VAR CurrentYearRevenue = 
+			    CALCULATE(
+			        [Total Revenue],
+			        Dim_Date[Year] = MaxYear
+			    )
+			VAR PreviousYearRevenue = 
+			    CALCULATE(
+			        [Total Revenue],
+			        Dim_Date[Year] = MaxYear - 1
+			    )
+			RETURN
+			    DIVIDE(CurrentYearRevenue - PreviousYearRevenue, PreviousYearRevenue, 0)
+			```
+		lineageTag: 1fe65855-441e-46b5-a420-1e9fe6e76a72
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Value
+		isHidden
+		lineageTag: 99a55cc6-71cd-4628-87cb-2ae53e7792df
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Value]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Key Measures' = calculated
+		mode: import
+		source = { "Measures Table" }
+
+	annotation PBI_Id = 17aa98f570534511895f7d24932a7205
+

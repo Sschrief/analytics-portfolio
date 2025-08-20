@@ -1,0 +1,24 @@
+relationship AutoDetected_272334d4-e73c-43fc-acfe-a51807aecc1b
+	fromColumn: Fact_Orders.ChannelID
+	toColumn: Dim_Channel.ChannelID
+
+relationship AutoDetected_31f04737-ceb7-42da-ad51-b1461d377e30
+	fromColumn: Fact_Orders.CustomerID
+	toColumn: Dim_Customer.CustomerID
+
+relationship AutoDetected_aa188270-2fb6-4674-8e0f-923fd6b30f88
+	fromColumn: Fact_Orders.GeographyID
+	toColumn: Dim_Geography.GeographyID
+
+relationship AutoDetected_45dfa74a-ef5b-41aa-81a6-5bb68c608a66
+	fromColumn: Fact_Orders.ProductID
+	toColumn: Dim_Product.ProductID
+
+relationship AutoDetected_7a5c559b-1de7-40e4-979b-a4d28de7136e
+	fromColumn: Fact_Orders.SalesRepID
+	toColumn: Dim_SalesRep.SalesRepID
+
+relationship 4ee8088e-5709-5724-85eb-f9863575768f
+	fromColumn: Fact_Orders.OrderDate
+	toColumn: Dim_Date.Date
+
