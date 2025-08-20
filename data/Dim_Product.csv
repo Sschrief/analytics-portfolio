@@ -1,0 +1,61 @@
+ProductID,ProductName,ProductLine,Category,BasePrice
+PROD-0001,Fiber Systems v1.0,Fiber Systems,Network Infrastructure,120000
+PROD-0002,Fiber Systems v2.0,Fiber Systems,Network Infrastructure,120000
+PROD-0003,Fiber Systems v3.0,Fiber Systems,Network Infrastructure,120000
+PROD-0004,Fiber Systems v4.0,Fiber Systems,Network Infrastructure,120000
+PROD-0005,Fiber Systems v5.0,Fiber Systems,Network Infrastructure,120000
+PROD-0006,Routers v1.0,Routers,Network Infrastructure,120000
+PROD-0007,Routers v2.0,Routers,Network Infrastructure,120000
+PROD-0008,Routers v3.0,Routers,Network Infrastructure,120000
+PROD-0009,Routers v4.0,Routers,Network Infrastructure,120000
+PROD-0010,Routers v5.0,Routers,Network Infrastructure,120000
+PROD-0011,Switches v1.0,Switches,Network Infrastructure,120000
+PROD-0012,Switches v2.0,Switches,Network Infrastructure,120000
+PROD-0013,Switches v3.0,Switches,Network Infrastructure,120000
+PROD-0014,Switches v4.0,Switches,Network Infrastructure,120000
+PROD-0015,Switches v5.0,Switches,Network Infrastructure,120000
+PROD-0016,Compute v1.0,Compute,Cloud Solutions,65000
+PROD-0017,Compute v2.0,Compute,Cloud Solutions,65000
+PROD-0018,Compute v3.0,Compute,Cloud Solutions,65000
+PROD-0019,Compute v4.0,Compute,Cloud Solutions,65000
+PROD-0020,Compute v5.0,Compute,Cloud Solutions,65000
+PROD-0021,Storage v1.0,Storage,Cloud Solutions,65000
+PROD-0022,Storage v2.0,Storage,Cloud Solutions,65000
+PROD-0023,Storage v3.0,Storage,Cloud Solutions,65000
+PROD-0024,Storage v4.0,Storage,Cloud Solutions,65000
+PROD-0025,Storage v5.0,Storage,Cloud Solutions,65000
+PROD-0026,Platform v1.0,Platform,Cloud Solutions,65000
+PROD-0027,Platform v2.0,Platform,Cloud Solutions,65000
+PROD-0028,Platform v3.0,Platform,Cloud Solutions,65000
+PROD-0029,Platform v4.0,Platform,Cloud Solutions,65000
+PROD-0030,Platform v5.0,Platform,Cloud Solutions,65000
+PROD-0031,Firewall v1.0,Firewall,Security Platforms,95000
+PROD-0032,Firewall v2.0,Firewall,Security Platforms,95000
+PROD-0033,Firewall v3.0,Firewall,Security Platforms,95000
+PROD-0034,Firewall v4.0,Firewall,Security Platforms,95000
+PROD-0035,Firewall v5.0,Firewall,Security Platforms,95000
+PROD-0036,Identity v1.0,Identity,Security Platforms,95000
+PROD-0037,Identity v2.0,Identity,Security Platforms,95000
+PROD-0038,Identity v3.0,Identity,Security Platforms,95000
+PROD-0039,Identity v4.0,Identity,Security Platforms,95000
+PROD-0040,Identity v5.0,Identity,Security Platforms,95000
+PROD-0041,Monitoring v1.0,Monitoring,Security Platforms,95000
+PROD-0042,Monitoring v2.0,Monitoring,Security Platforms,95000
+PROD-0043,Monitoring v3.0,Monitoring,Security Platforms,95000
+PROD-0044,Monitoring v4.0,Monitoring,Security Platforms,95000
+PROD-0045,Monitoring v5.0,Monitoring,Security Platforms,95000
+PROD-0046,BI Tools v1.0,BI Tools,Analytics Software,45000
+PROD-0047,BI Tools v2.0,BI Tools,Analytics Software,45000
+PROD-0048,BI Tools v3.0,BI Tools,Analytics Software,45000
+PROD-0049,BI Tools v4.0,BI Tools,Analytics Software,45000
+PROD-0050,BI Tools v5.0,BI Tools,Analytics Software,45000
+PROD-0051,Data Warehouse v1.0,Data Warehouse,Analytics Software,45000
+PROD-0052,Data Warehouse v2.0,Data Warehouse,Analytics Software,45000
+PROD-0053,Data Warehouse v3.0,Data Warehouse,Analytics Software,45000
+PROD-0054,Data Warehouse v4.0,Data Warehouse,Analytics Software,45000
+PROD-0055,Data Warehouse v5.0,Data Warehouse,Analytics Software,45000
+PROD-0056,Reporting v1.0,Reporting,Analytics Software,45000
+PROD-0057,Reporting v2.0,Reporting,Analytics Software,45000
+PROD-0058,Reporting v3.0,Reporting,Analytics Software,45000
+PROD-0059,Reporting v4.0,Reporting,Analytics Software,45000
+PROD-0060,Reporting v5.0,Reporting,Analytics Software,45000

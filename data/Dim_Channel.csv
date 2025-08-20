@@ -1,0 +1,5 @@
+ChannelID,ChannelName,ChannelType,CostPercent
+CHN-001,Direct Sales,Direct,0.15
+CHN-002,Partner Channel,Indirect,0.22
+CHN-003,Online Store,Digital,0.08
+CHN-004,Reseller Network,Indirect,0.25

@@ -1,0 +1,20 @@
+GeographyID,City,Country,Region
+GEO-0001,New York,United States,North America
+GEO-0002,Los Angeles,United States,North America
+GEO-0003,Chicago,United States,North America
+GEO-0004,Houston,United States,North America
+GEO-0005,Toronto,Canada,North America
+GEO-0006,Vancouver,Canada,North America
+GEO-0007,Montreal,Canada,North America
+GEO-0008,London,United Kingdom,Europe
+GEO-0009,Manchester,United Kingdom,Europe
+GEO-0010,Birmingham,United Kingdom,Europe
+GEO-0011,Berlin,Germany,Europe
+GEO-0012,Munich,Germany,Europe
+GEO-0013,Hamburg,Germany,Europe
+GEO-0014,Tokyo,Japan,Asia Pacific
+GEO-0015,Osaka,Japan,Asia Pacific
+GEO-0016,Nagoya,Japan,Asia Pacific
+GEO-0017,Sydney,Australia,Asia Pacific
+GEO-0018,Melbourne,Australia,Asia Pacific
+GEO-0019,Brisbane,Australia,Asia Pacific
