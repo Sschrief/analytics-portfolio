@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Dashboards - Sean Schriefer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        .nav-bar {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            margin-bottom: 30px;
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: white;
+        }
+
+        .hero {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            margin: 20px 0 40px 0;
+            padding: 60px 40px;
+            text-align: center;
+            color: white;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #fff, #e3f2fd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .dashboards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .dashboard-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+        }
+
+        .dashboard-header {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .dashboard-preview {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1e40af, #3b82f6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        .dashboard-content {
+            padding: 30px;
+        }
+
+        .dashboard-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .dashboard-description {
+            color: #64748b;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .dashboard-features {
+            list-style: none;
+            margin-bottom: 25px;
+        }
+
+        .dashboard-features li {
+            padding: 5px 0;
+            color: #4b5563;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .dashboard-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #10b981;
+            font-weight: bold;
+        }
+
+        .dashboard-actions {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #1e40af, #3b82f6);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(30, 64, 175, 0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(100, 116, 139, 0.1);
+            color: #475569;
+            border: 1px solid #cbd5e1;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(100, 116, 139, 0.2);
+        }
+
+        .status-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-live {
+            background: #10b981;
+            color: white;
+        }
+
+        .status-coming-soon {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .status-concept {
+            background: #6b7280;
+            color: white;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .tech-tag {
+            background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
+            color: #475569;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 20px;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .dashboards-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .dashboard-content {
+                padding: 20px;
+            }
+        }
+
+        .featured-dashboard {
+            grid-column: 1 / -1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .featured-dashboard .dashboard-header {
+            height: 300px;
+        }
+
+        .featured-dashboard .dashboard-preview {
+            background: linear-gradient(135deg, #059669, #10b981);
+            font-size: 4rem;
+        }
+
+        .iframe-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+        }
+
+        .iframe-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation -->
+        <nav class="nav-bar">
+            <div class="nav-content">
+                <a href="index.html" class="nav-logo">Sean Schriefer</a>
+                <ul class="nav-links">
+                    <li><a href="index.html">Portfolio</a></li>
+                    <li><a href="#dashboards">Dashboards</a></li>
+                    <li><a href="mailto:seandschriefer@gmail.com">Contact</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <a href="index.html" class="back-link">← Back to Portfolio</a>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>Analytics Dashboards</h1>
+            <p>Enterprise-grade business intelligence solutions demonstrating advanced data modeling, visualization design, and executive communication</p>
+        </section>
+
+        <!-- Dashboards Grid -->
+        <div class="dashboards-grid" id="dashboards">
+            
+            <!-- Featured: Executive Finance Dashboard -->
+            <div class="dashboard-card featured-dashboard">
+                <div class="dashboard-header">
+                    <div class="status-badge status-live">● LIVE DEMO</div>
+                    <div class="dashboard-preview">📊</div>
+                </div>
+                <div class="dashboard-content">
+                    <h3 class="dashboard-title">Executive Finance Dashboard</h3>
+                    <p class="dashboard-description">
+                        Comprehensive financial performance dashboard featuring star schema data modeling, advanced time intelligence, and executive-level KPI visualization. Built with enterprise-scale data across $6.9B in revenue over 5 years.
+                    </p>
+                    <ul class="dashboard-features">
+                        <li>Star schema with 6 dimensions + fact table (50K+ records)</li>
+                        <li>Advanced DAX time intelligence (YoY, YTD, rolling periods)</li>
+                        <li>Interactive KPI cards with growth indicators</li>
+                        <li>Cross-filtering revenue trend analysis</li>
+                        <li>Mobile-responsive executive design</li>
+                    </ul>
+                    <div class="tech-stack">
+                        <span class="tech-tag">Power BI</span>
+                        <span class="tech-tag">DAX</span>
+                        <span class="tech-tag">Star Schema</span>
+                        <span class="tech-tag">Time Intelligence</span>
+                        <span class="tech-tag">Git/PBIP</span>
+                    </div>
+                    <div class="dashboard-actions">
+                        <a href="#" class="btn btn-primary" id="live-demo-btn">🚀 View Live Demo</a>
+                        <a href="power-bi/README.md" class="btn btn-secondary">📁 Technical Documentation</a>
+                        <a href="data/" class="btn btn-secondary">💾 Download Dataset</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sales Performance Analytics -->
+            <div class="dashboard-card">
+                <div class="dashboard-header">
+                    <div class="status-badge status-coming-soon">COMING SOON</div>
+                    <div class="dashboard-preview">📈</div>
+                </div>
+                <div class="dashboard-content">
+                    <h3 class="dashboard-title">Sales Performance Analytics</h3>
+                    <p class="dashboard-description">
+                        Advanced sales analytics dashboard featuring territory management, quota tracking, and predictive forecasting with machine learning integration.
+                    </p>
+                    <ul class="dashboard-features">
+                        <li>Territory and quota performance tracking</li>
+                        <li>Sales funnel conversion analysis</li>
+                        <li>Predictive revenue forecasting</li>
+                        <li>Customer acquisition cost analytics</li>
+                    </ul>
+                    <div class="tech-stack">
+                        <span class="tech-tag">Power BI</span>
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">Machine Learning</span>
+                        <span class="tech-tag">Forecasting</span>
+                    </div>
+                    <div class="dashboard-actions">
+                        <button class="btn btn-secondary" disabled>🔨 In Development</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Customer Analytics -->
+            <div class="dashboard-card">
+                <div class="dashboard-header">
+                    <div class="status-badge status-coming-soon">COMING SOON</div>
+                    <div class="dashboard-preview">👥</div>
+                </div>
+                <div class="dashboard-content">
+                    <h3 class="dashboard-title">Customer Analytics & Segmentation</h3>
+                    <p class="dashboard-description">
+                        Customer lifecycle analytics with RFM segmentation, lifetime value calculations, and churn prediction modeling.
+                    </p>
+                    <ul class="dashboard-features">
+                        <li>RFM customer segmentation analysis</li>
+                        <li>Customer lifetime value modeling</li>
+                        <li>Churn prediction and retention analytics</li>
+                        <li>Cohort analysis and retention tracking</li>
+                    </ul>
+                    <div class="tech-stack">
+                        <span class="tech-tag">Power BI</span>
+                        <span class="tech-tag">R</span>
+                        <span class="tech-tag">Clustering</span>
+                        <span class="tech-tag">Predictive Analytics</span>
+                    </div>
+                    <div class="dashboard-actions">
+                        <button class="btn btn-secondary" disabled>🔨 In Development</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Supply Chain Analytics -->
+            <div class="dashboard-card">
+                <div class="dashboard-header">
+                    <div class="status-badge status-concept">CONCEPT</div>
+                    <div class="dashboard-preview">🚚</div>
+                </div>
+                <div class="dashboard-content">
+                    <h3 class="dashboard-title">Supply Chain Optimization</h3>
+                    <p class="dashboard-description">
+                        End-to-end supply chain visibility dashboard with inventory optimization, demand forecasting, and logistics performance tracking.
+                    </p>
+                    <ul class="dashboard-features">
+                        <li>Inventory level optimization</li>
+                        <li>Demand forecasting and planning</li>
+                        <li>Supplier performance scorecards</li>
+                        <li>Logistics and delivery analytics</li>
+                    </ul>
+                    <div class="tech-stack">
+                        <span class="tech-tag">Tableau</span>
+                        <span class="tech-tag">SQL</span>
+                        <span class="tech-tag">Optimization</span>
+                        <span class="tech-tag">Forecasting</span>
+                    </div>
+                    <div class="dashboard-actions">
+                        <button class="btn btn-secondary" disabled>💡 Planned</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- HR Analytics -->
+            <div class="dashboard-card">
+                <div class="dashboard-header">
+                    <div class="status-badge status-concept">CONCEPT</div>
+                    <div class="dashboard-preview">👤</div>
+                </div>
+                <div class="dashboard-content">
+                    <h3 class="dashboard-title">HR Analytics & Workforce Intelligence</h3>
+                    <p class="dashboard-description">
+                        Comprehensive workforce analytics including employee engagement, performance tracking, and talent acquisition insights.
+                    </p>
+                    <ul class="dashboard-features">
+                        <li>Employee engagement and satisfaction metrics</li>
+                        <li>Performance review and goal tracking</li>
+                        <li>Talent acquisition funnel analysis</li>
+                        <li>Workforce diversity and inclusion metrics</li>
+                    </ul>
+                    <div class="tech-stack">
+                        <span class="tech-tag">Power BI</span>
+                        <span class="tech-tag">Excel</span>
+                        <span class="tech-tag">Survey Analytics</span>
+                        <span class="tech-tag">HR Metrics</span>
+                    </div>
+                    <div class="dashboard-actions">
+                        <button class="btn btn-secondary" disabled>💡 Planned</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Marketing Attribution -->
+            <div class="dashboard-card">
+                <div class="dashboard-header">
+                    <div class="status-badge status-concept">CONCEPT</div>
+                    <div class="dashboard-preview">📱</div>
+                </div>
+                <div class="dashboard-content">
+                    <h3 class="dashboard-title">Marketing Attribution & ROI</h3>
+                    <p class="dashboard-description">
+                        Multi-touch attribution modeling with campaign performance tracking, customer journey analysis, and marketing ROI optimization.
+                    </p>
+                    <ul class="dashboard-features">
+                        <li>Multi-touch attribution modeling</li>
+                        <li>Campaign performance and ROI tracking</li>
+                        <li>Customer journey mapping</li>
+                        <li>Marketing spend optimization</li>
+                    </ul>
+                    <div class="tech-stack">
+                        <span class="tech-tag">Google Analytics</span>
+                        <span class="tech-tag">Attribution Modeling</span>
+                        <span class="tech-tag">Campaign Tracking</span>
+                        <span class="tech-tag">ROI Analysis</span>
+                    </div>
+                    <div class="dashboard-actions">
+                        <button class="btn btn-secondary" disabled>💡 Planned</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Add your Power BI embed URL here
+        const POWER_BI_EMBED_URL = 'https://app.fabric.microsoft.com/view?r=eyJrIjoiYTYwYWYyYjQtNDU4Ni00NjAxLWFlOGMtZjhlYzExOTIxYmNjIiwidCI6ImZjZmJhMTU3LTZjZTktNGIzMi1iOWUwLWExZGY5NTc0YzAyNCIsImMiOjJ9';
+        
+        document.getElementById('live-demo-btn').addEventListener('click', function(e) {
+            e.preventDefault();
+            if (POWER_BI_EMBED_URL && POWER_BI_EMBED_URL !== 'YOUR_POWER_BI_PUBLIC_URL_HERE') {
+                window.open(POWER_BI_EMBED_URL, '_blank');
+            } else {
+                alert('Please add your Power BI public URL to the JavaScript section of this page.');
+            }
+        });
+
+        // Animate cards on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeInUp 0.6s ease-out forwards';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.dashboard-card').forEach(card => {
+            observer.observe(card);
+        });
+
+        // Add CSS animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            .dashboard-card {
+                opacity: 0;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
